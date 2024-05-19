@@ -1,0 +1,167 @@
+
+@font-face {
+    font-family: 'rubik';
+    src: url('resources/rubic.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'rubik', serif;
+}
+
+body {
+    height: 100vh;
+    overflow-y: scroll;
+}
+
+.container {
+    display: flex;
+    height: 100%;
+}
+
+#sidebar {
+    height: 100%;
+    background-color: #2C2E3A;
+    flex: 1 1 auto;
+    display: grid;
+    grid-template-rows: repeat(auto-fill, 60px);
+    padding: 20px;
+    gap: 20px;
+}
+
+#title-svg {
+    fill: pink;
+}
+
+#sidebar > * {
+    width: 100%;
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+    background: none;
+}
+
+svg {
+    height: 100%;
+    width: auto;
+    fill: white;
+}
+
+.title {
+    font-size: 30px;
+    border-bottom: 5px solid white;
+    z-index: 1;
+}
+
+button, .sidebar-list, .content-title > button {
+    font-size: 20px;
+    text-transform: uppercase;
+    border-radius: 10px;
+    border: none;
+}
+
+button {
+    background-color: white;
+    color: #2C2E3A;
+}
+
+button:hover, #close-dialog:hover, #add-dialog:hover {
+    outline: 3px solid white;
+}
+
+.sidebar-title {
+    border-top: 3px solid white;
+    border-bottom: 3px solid white;
+    font-size: 25px;
+}
+
+#content {
+    height: 100%;
+    flex: 10 10 auto;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #B3B4BD;
+}
+
+#content > * {
+    color: #141619;
+    text-align: left;
+    width: 100%;
+}
+
+.content-title {
+    font-weight: bold;
+    font-size: 40px;
+    border-bottom: 3px solid #141619;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.content-title > * {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+}
+
+.content-title > div {
+    justify-content: right;
+}
+
+.content-title > div > button {
+    color: white;
+    gap: 10px;
+    background: #2C2E3A;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+}
+
+dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #2C2E3A;
+    border: 5px solid #141619;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+form {
+    display: grid;
+    grid-template: 1fr 1fr 1fr 3fr 1fr / 1fr 2fr;
+    padding: 40px;
+    gap: 40px;
+}
+
+form > * {
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 18px;
+    color: #141619;
+    border: 3px solid #141619;
+}
+
+#close-dialog, #add-dialog, form > label {
+    background: none;
+    border: none;
+    color: white;
+}
+
+::backdrop {
+    background-color: gray;
+    opacity: 0.5;
+}
