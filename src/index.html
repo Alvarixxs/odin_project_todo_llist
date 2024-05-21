@@ -25,18 +25,14 @@
         <p class="sidebar-title">
             MY LISTS
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>playlist-edit</title><path d="M3 6V8H14V6H3M3 10V12H14V10H3M20 10.1C19.9 10.1 19.7 10.2 19.6 10.3L18.6 11.3L20.7 13.4L21.7 12.4C21.9 12.2 21.9 11.8 21.7 11.6L20.4 10.3C20.3 10.2 20.2 10.1 20 10.1M18.1 11.9L12 17.9V20H14.1L20.2 13.9L18.1 11.9M3 14V16H10V14H3Z" /></svg>        </p>
-        <button class="new-list">
+        <button id="new-list">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>plus-box</title><path d="M17,13H13V17H11V13H7V11H11V7H13V11H17M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3Z" /></svg>
             NEW LIST
-        </button>
-        <button class="sidebar-list">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>folder-check</title><path d="M13 19C13 19.34 13.04 19.67 13.09 20H4C2.9 20 2 19.11 2 18V6C2 4.89 2.89 4 4 4H10L12 6H20C21.1 6 22 6.89 22 8V13.81C21.12 13.3 20.1 13 19 13C15.69 13 13 15.69 13 19M21.34 15.84L17.75 19.43L16.16 17.84L15 19L17.75 22L22.5 17.25L21.34 15.84Z" /></svg>
-            #General
         </button>
     </div>
     <div id="content">
         <div class="content-title">
-            <p>#General</p>
+            <p id="content-title"></p>
             <div>
                 <button id="add-task">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>plus</title><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" /></svg>
@@ -44,9 +40,10 @@
                 </button>
             </div>
         </div>
+        <div id="content-tasks"></div>
     </div>
 </div>
-<dialog id="dialog">
+<dialog id="dialog-task">
     <form method="dialog" id="form-task">
         <label for="input-title">TITLE:</label>
         <input type="text" id="input-title" minlength="4" required>
@@ -60,8 +57,16 @@
         </select>
         <label for="input-notes">NOTES (OPTIONAL):</label>
         <textarea id="input-notes"></textarea>
-        <input type="submit" id="close-dialog" value="CLOSE">
-        <input type="submit" id="add-dialog" value="ADD">
+        <input type="submit" id="close-dialog-task" value="CLOSE">
+        <input type="submit" id="add-dialog-task" value="ADD">
+    </form>
+</dialog>
+<dialog id="dialog-list">
+    <form method="dialog" id="form-list">
+        <label for="input-name">TITLE:</label>
+        <input type="text" id="input-name" minlength="4" required>
+        <input type="submit" id="close-dialog-list" value="CLOSE">
+        <input type="submit" id="add-dialog-list" value="ADD">
     </form>
 </dialog>
 </body>
