@@ -61,20 +61,28 @@ svg {
     z-index: 1;
 }
 
-button, .sidebar-list, .content-title > button {
+button, .sidebar-list {
     font-size: 20px;
     text-transform: uppercase;
     border-radius: 10px;
     border: none;
+    transition: transform 0.3s ease;
 }
 
-button {
-    background-color: white;
+#add-task {
     color: #2C2E3A;
+    background: pink;
+    align-items: center;
+    justify-content: center;
+}
+
+#add-task-svg {
+    fill: #2C2E3A;
 }
 
 button:hover, #close-dialog-task:hover, #add-dialog-task:hover {
-    outline: 3px solid white;
+    outline: none;
+    transform: scale(1.05);
 }
 
 .sidebar-title {
@@ -91,6 +99,7 @@ button:hover, #close-dialog-task:hover, #add-dialog-task:hover {
     flex-direction: column;
     align-items: center;
     background-color: #B3B4BD;
+    position: relative;
 }
 
 #content > * {
@@ -119,14 +128,63 @@ button:hover, #close-dialog-task:hover, #add-dialog-task:hover {
     justify-content: right;
 }
 
-.content-title > div > button {
-    color: white;
-    gap: 10px;
-    background: #2C2E3A;
-    height: 50px;
+#content-tasks {
+    padding: 30px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#content-tasks > button {
     display: flex;
     align-items: center;
-    padding: 0 15px;
+    justify-content: left;
+    gap: 10px;
+    background: none;
+    transition: transform 0.3s ease;
+}
+
+#content-tasks > button:hover {
+    outline: none;
+    transform: scale(1.01);
+}
+
+.content-text {
+    background-color: darkgray;
+    border-radius: 10px;
+    border: 1px solid black;
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    text-transform: lowercase;
+}
+
+.content-text > input {
+    position: relative;
+    width: 2em;
+    height: 2em;
+    border: 1px solid gray;
+    border-radius: 10px;
+    vertical-align: -2px;
+    appearance: none;
+    margin-right: 10px;
+}
+
+.content-task-svg-1, .content-tasks-svg-2, .content-tasks-svg-3 {
+    height: 40px;
+}
+.content-task-svg-1 {
+    fill: red;
+}
+
+.content-tasks-svg-2 {
+    fill:orange;
+}
+
+.content-tasks-svg-3 {
+    fill: green;
 }
 
 dialog {
@@ -147,7 +205,7 @@ form {
 }
 
 #form-task {
-    grid-template: 1fr 1fr 1fr 3fr 1fr / 1fr 2fr;
+    grid-template: 1fr 1fr 1fr 1fr 3fr 1fr / 1fr 2fr;
 }
 
 #form-list {

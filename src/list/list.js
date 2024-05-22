@@ -3,49 +3,63 @@ import {bind} from "lodash";
 
 const create_list = function (listTitle) {
     let tasks = []
+    listTitle='#'+listTitle.replaceAll(' ','-')
+
+    const get_tasks = function() {
+        return tasks;
+    }
 
     const add = function(task) {
         tasks.push(task)
     }
 
-    return { listTitle, tasks, add };
+    const addAll = function(list_tasks) {
+        for (let i=0; i < list_tasks.length; i++) {
+            tasks.push(list_tasks[i])
+        }
+    }
+
+    const elim = function(taskTitle) {
+        tasks = tasks.filter(item => item.taskTitle !== taskTitle)
+    }
+
+    return { listTitle, get_tasks, add, addAll, elim };
 }
 
-const handle_addList = function (ev) {
+const handle_addList = function (app) {
     let form = document.getElementById('form-list');
-    let list = create_list('#'+form['input-name'].value.replaceAll(' ','-'));
     let dialog = document.getElementById('dialog-list')
 
     if (form.checkValidity() === false) {
         return
     }
+    let list = create_list(form['input-name'].value);
 
+    app.add_list(list)
     add_list_button(list)
     form.reset()
     dialog.close()
-    console.log(list)
-
-    return list
 }
 
-const handle_newList = function (ev) {
+const handle_newList = function () {
     let dialog = document.getElementById('dialog-list')
     dialog.showModal()
 }
 
-const handle_closeList = function(ev) {
+const handle_closeList = function() {
     let dialog = document.getElementById('dialog-list')
     dialog.close()
 }
 
-const setup_list_dialog = function(all_lists) {
+const setup_list_dialog = function(app) {
     let newButton = document.getElementById("new-list");
     let addButton = document.getElementById("add-dialog-list");
     let closeButton = document.getElementById("close-dialog-list");
 
     // add button for general
-    let general_list = create_list('#General');
+    let general_list = create_list('General');
     add_list_button(general_list)
+    app.add_list(general_list)
     show_list(general_list)
 
     newButton.addEventListener('click', ev => {
@@ -53,9 +67,9 @@ const setup_list_dialog = function(all_lists) {
         addButton.focus()
     })
 
-    addButton.addEventListener('click', ev => all_lists.push(handle_addList(ev)))
+    addButton.addEventListener('click', ev => handle_addList(app))
 
-    closeButton.addEventListener('click', ev => handle_closeList(ev))
+    closeButton.addEventListener('click', ev => handle_closeList())
 }
 
 const add_list_button = function (list) {
@@ -79,22 +93,20 @@ const add_list_button = function (list) {
 
 const show_list = function (list) {
     let title = document.getElementById('content-title')
-    title.current_list = list
     title.textContent = list.listTitle
 
-    console.log(list.tasks)
-    show_all_tasks(list.tasks)
+    show_all_tasks(list.get_tasks(), list)
 }
 
-const show_all_tasks = function (tasks) {
+const show_all_tasks = function (tasks, list) {
     let content = document.getElementById('content-tasks')
     while (content.firstChild) {
         content.removeChild(content.firstChild)
     }
 
     for (let i=0; i<tasks.length; i++) {
-        show_task(tasks[i])
+        show_task(tasks[i], list)
     }
 }
 
-export { setup_list_dialog }
+export { setup_list_dialog, create_list, show_list }
