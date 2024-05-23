@@ -49,22 +49,20 @@ const handle_closeTask = function() {
     dialog.close()
 }
 
-const setup_task_dialog = function(app) {
-    let newTaskButton = document.getElementById("add-task");
-    let addButton = document.getElementById("add-dialog-task");
-    let closeButton = document.getElementById("close-dialog-task");
-
-    newTaskButton.addEventListener('click', ev => handle_newTask(app))
-
-    addButton.addEventListener('click', ev => handle_addTask(app))
-    closeButton.addEventListener('click', ev => handle_closeTask())
-}
-
 const show_task = function (task, list) {
     let content = document.getElementById('content-tasks')
+    let div = document.createElement('div')
     let button = document.createElement('button')
     let p = document.createElement('p')
-    p.className = 'content-text'
+    button.className = 'content-text'
+
+    let checkbox = document.createElement('input')
+    checkbox.type = 'checkbox'
+    div.appendChild(checkbox)
+    checkbox.addEventListener('change', ev => {
+        list.elim(task.taskTitle)
+        show_list(list)
+    })
 
     if (task.priority === '1')
         button.innerHTML = `
@@ -79,20 +77,44 @@ const show_task = function (task, list) {
         <svg class="content-tasks-svg-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>numeric-3-circle</title><path d="M15,15V13.5A1.5,1.5 0 0,0 13.5,12A1.5,1.5 0 0,0 15,10.5V9C15,7.89 14.1,7 13,7H9V9H13V11H11V13H13V15H9V17H13A2,2 0 0,0 15,15M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z" /></svg>
         `
 
-    let checkbox = document.createElement('input')
-    checkbox.type = 'checkbox'
-    p.appendChild(checkbox)
-    checkbox.addEventListener('change', ev => {
-        list.elim(task.taskTitle)
-        show_list(list)
-    })
-
     let textNode = document.createTextNode(task.taskTitle.toUpperCase());
     p.appendChild(textNode);
 
     button.appendChild(p)
-    content.appendChild(button)
+    button.addEventListener('click', ev =>  {
+        let dialog = document.getElementById('dialog-task-info')
+        let close = document.getElementById('close-dialog-task-info')
 
+        let p1 = document.getElementById('info-title')
+        p1.textContent = task.taskTitle
+        let p2 = document.getElementById('info-date')
+        p2.textContent = task.date
+        let p3 = document.getElementById('info-priority')
+        p3.textContent = task.priority
+        let p4 = document.getElementById('info-notes')
+        p4.textContent = task.notes
+        p4.contentEditable = "false"
+
+        close.addEventListener('click', ev1 => {
+            task.notes = p4.textContent
+            dialog.close()
+        })
+        dialog.showModal()
+    })
+
+    div.appendChild(button)
+    content.appendChild(div)
+}
+
+const setup_task_dialog = function(app) {
+    let newTaskButton = document.getElementById("add-task");
+    let addButton = document.getElementById("add-dialog-task");
+    let closeButton = document.getElementById("close-dialog-task");
+
+    newTaskButton.addEventListener('click', ev => handle_newTask(app))
+
+    addButton.addEventListener('click', ev => handle_addTask(app))
+    closeButton.addEventListener('click', ev => handle_closeTask())
 }
 
 export { setup_task_dialog , show_task }

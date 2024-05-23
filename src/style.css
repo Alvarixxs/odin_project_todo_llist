@@ -26,19 +26,23 @@ body {
 #sidebar {
     height: 100%;
     background-color: #2C2E3A;
-    flex: 1 1 auto;
+    width: 20%;
     display: grid;
     grid-template-rows: repeat(auto-fill, 60px);
     padding: 20px;
     gap: 20px;
 }
 
+#sidebar > * {
+    width: 100%;
+    height: auto;
+}
+
 #title-svg {
     fill: pink;
 }
 
-#sidebar > * {
-    width: 100%;
+#sidebar > p, #sidebar > button:not(:nth-child(2)) {
     padding: 10px;
     color: white;
     font-weight: bold;
@@ -66,6 +70,9 @@ button, .sidebar-list {
     text-transform: uppercase;
     border-radius: 10px;
     border: none;
+}
+
+button {
     transition: transform 0.3s ease;
 }
 
@@ -74,21 +81,94 @@ button, .sidebar-list {
     background: pink;
     align-items: center;
     justify-content: center;
+    display: flex;
+    padding: 10px;
+    gap: 10px;
+    font-weight: bold;
 }
 
 #add-task-svg {
     fill: #2C2E3A;
 }
 
-button:hover, #close-dialog-task:hover, #add-dialog-task:hover {
+button:hover, #close-dialog-task:hover, #add-dialog-task:hover, #close-dialog-list:hover, #add-dialog-list:hover, #close-dialog-task-info:hover {
     outline: none;
     transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .sidebar-title {
     border-top: 3px solid white;
     border-bottom: 3px solid white;
     font-size: 25px;
+}
+
+.sidebar-list {
+    display: flex;
+    flex-direction: row;
+}
+
+.sidebar-list > * {
+    display: flex;
+    background: none;
+    align-items: center;
+    color: white;
+    height: 100%;
+    padding: 10px;
+}
+
+.sidebar-edit {
+    flex: 1 1 auto;
+    gap: 0 10px;
+    justify-content: left;
+}
+
+.sidebar-edit > p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.sidebar-list {
+    display: flex;
+    flex-direction: row;
+}
+
+.sidebar-list > * {
+    display: flex;
+    background: none;
+    align-items: center;
+    color: white;
+    height: 100%;
+    padding: 10px;
+}
+
+.sidebar-edit {
+    flex: 1 1 auto;
+    gap: 0 10px;
+    justify-content: left;
+}
+
+.sidebar-edit > p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.sidebar-remove {
+    justify-content: end;
+}
+
+.sidebar-remove > svg {
+    fill: red;
+    opacity: 0.7;
+}
+.sidebar-remove {
+    justify-content: end;
+}
+
+.sidebar-remove > svg {
+    fill: red;
+    opacity: 0.7;
 }
 
 #content {
@@ -135,25 +215,32 @@ button:hover, #close-dialog-task:hover, #add-dialog-task:hover {
     gap: 20px;
 }
 
-#content-tasks > button {
+#content-tasks > div > button {
     display: flex;
     align-items: center;
     justify-content: left;
     gap: 10px;
-    background: none;
     transition: transform 0.3s ease;
 }
 
-#content-tasks > button:hover {
-    outline: none;
+#content-tasks > div > button:hover {
     transform: scale(1.01);
+}
+
+#content-tasks > div:after {
+    transition: fade 0.3s ease;
+
+}
+
+#content-tasks > div {
+    display: flex;
+    align-items: center;
 }
 
 .content-text {
     background-color: darkgray;
-    border-radius: 10px;
+    border-radius: 5px;
     border: 1px solid black;
-    padding: 10px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -161,7 +248,7 @@ button:hover, #close-dialog-task:hover, #add-dialog-task:hover {
     text-transform: lowercase;
 }
 
-.content-text > input {
+input[type=checkbox] {
     position: relative;
     width: 2em;
     height: 2em;
@@ -212,6 +299,11 @@ form {
     grid-template: 1fr / 1fr 2fr;
 }
 
+#form-task-info {
+    display: grid;
+    grid-template: 1fr 1fr 1fr 3fr / 1fr 2fr;
+}
+
 form > * {
     border-radius: 5px;
     padding: 5px;
@@ -220,7 +312,7 @@ form > * {
     border: 3px solid #141619;
 }
 
-#close-dialog-task, #add-dialog-task, form > label {
+#close-dialog-task, #add-dialog-task, form > label, #form-task-info > *, #close-dialog-task-info, #close-dialog-list, #add-dialog-list {
     background: none;
     border: none;
     color: white;

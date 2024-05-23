@@ -5,6 +5,7 @@ import { setup_functionalities } from "./functionalities/functionalities";
 
 const create_app = function() {
     let all_lists = []
+    let default_list
 
     const add_list = function(list) {
         all_lists.push(list)
@@ -19,7 +20,16 @@ const create_app = function() {
         return list.pop()
     }
 
-    return { add_list, get_lists , get_list }
+    const elim = function(listTitle) {
+        all_lists = all_lists.filter(item => item.listTitle !== listTitle)
+
+    }
+
+    const get_default = function() {return default_list}
+
+    const set_default = function(list) {default_list = list}
+
+    return { add_list, get_lists , get_list, elim, get_default, set_default }
 }
 
 
