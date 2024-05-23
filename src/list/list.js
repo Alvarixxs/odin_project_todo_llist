@@ -1,29 +1,11 @@
 import {show_task} from "../task/task";
-import {bind} from "lodash";
+import {update_storage} from "../index";
 
 const create_list = function (listTitle) {
     let tasks = []
     listTitle='#'+listTitle.replaceAll(' ','-')
 
-    const get_tasks = function() {
-        return tasks;
-    }
-
-    const add = function(task) {
-        tasks.push(task)
-    }
-
-    const addAll = function(list_tasks) {
-        for (let i=0; i < list_tasks.length; i++) {
-            tasks.push(list_tasks[i])
-        }
-    }
-
-    const elim = function(taskTitle) {
-        tasks = tasks.filter(item => item.taskTitle !== taskTitle)
-    }
-
-    return { listTitle, get_tasks, add, addAll, elim };
+    return { listTitle, tasks };
 }
 
 const handle_addList = function (app) {
@@ -35,7 +17,9 @@ const handle_addList = function (app) {
     }
     let list = create_list(form['input-name'].value);
 
-    app.add_list(list)
+    app.all_lists.push(list)
+    console.log(app)
+    update_storage(app)
     add_list_button(list, app)
     form.reset()
     dialog.close()
@@ -69,7 +53,7 @@ const add_list_button = function (list, app) {
     button1.appendChild(p);
 
     button1.addEventListener('click', ev => {
-        show_list(list)
+        show_list(list, app)
     })
     div.appendChild(button1)
 
@@ -83,44 +67,38 @@ const add_list_button = function (list, app) {
 
         button2.addEventListener('click', ev => {
             sidebar.removeChild(div)
-            app.elim(list.listTitle)
-            show_list(app.get_default())
+            app.all_lists = app.all_lists.filter( item => item !== list)
+            console.log(app)
+            update_storage(app)
+            show_list(app.all_lists[0], app)
         })
     }
 
     sidebar.appendChild(div);
 }
 
-const show_list = function (list) {
+const show_list = function (list, app) {
     let title = document.getElementById('content-title')
     title.textContent = list.listTitle
 
-    show_all_tasks(list.get_tasks(), list)
+    show_all_tasks(list.tasks, list, app)
 }
 
-const show_all_tasks = function (tasks, list) {
+const show_all_tasks = function (tasks, list, app) {
     let content = document.getElementById('content-tasks')
     while (content.firstChild) {
         content.removeChild(content.firstChild)
     }
 
     for (let i=0; i<tasks.length; i++) {
-        show_task(tasks[i], list)
+        show_task(tasks[i], list, app)
     }
 }
-
 
 const setup_list_dialog = function(app) {
     let newButton = document.getElementById("new-list");
     let addButton = document.getElementById("add-dialog-list");
     let closeButton = document.getElementById("close-dialog-list");
-
-    // add button for general
-    let general_list = create_list('General');
-    add_list_button(general_list, app)
-    app.add_list(general_list)
-    app.set_default(general_list)
-    show_list(general_list)
 
     newButton.addEventListener('click', ev => {
         handle_newList(ev)
@@ -132,4 +110,4 @@ const setup_list_dialog = function(app) {
     closeButton.addEventListener('click', ev => handle_closeList())
 }
 
-export { setup_list_dialog, create_list, show_list }
+export { setup_list_dialog, create_list, show_list, add_list_button }

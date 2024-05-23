@@ -1,4 +1,5 @@
 import {show_list} from "../list/list";
+import {update_storage} from "../index";
 
 const create_task = function (taskTitle, date, priority, notes) {
     return {taskTitle, date, priority, notes}
@@ -17,8 +18,9 @@ const handle_addTask = function (app) {
         return
     }
 
-    let list = app.get_list(form['input-list'].value)
-    list.add(task)
+    let list = app.all_lists.filter(item => item.listTitle === (form['input-list'].value)).pop()
+    list.tasks.push(task)
+    update_storage(app)
     show_list(list)
 
     form.reset()
@@ -32,7 +34,7 @@ const handle_newTask = function(app) {
     while (selector.firstChild) {
         selector.removeChild(selector.firstChild)
     }
-    let lists = app.get_lists()
+    let lists = app.all_lists
 
     for (let i = 0; i < lists.length; i++) {
         let option = document.createElement('option')
@@ -49,20 +51,23 @@ const handle_closeTask = function() {
     dialog.close()
 }
 
-const show_task = function (task, list) {
+const show_task = function (task, list, app) {
     let content = document.getElementById('content-tasks')
     let div = document.createElement('div')
     let button = document.createElement('button')
     let p = document.createElement('p')
     button.className = 'content-text'
 
-    let checkbox = document.createElement('input')
-    checkbox.type = 'checkbox'
-    div.appendChild(checkbox)
-    checkbox.addEventListener('change', ev => {
-        list.elim(task.taskTitle)
-        show_list(list)
-    })
+    if (list.listTitle !== '#All-tasks' && list.listTitle !== '#Today' && list.listTitle !== '#Overdue') {
+        let checkbox = document.createElement('input')
+        checkbox.type = 'checkbox'
+        div.appendChild(checkbox)
+        checkbox.addEventListener('change', ev => {
+            list.tasks = list.tasks.filter(item => item !== task)
+            update_storage(app)
+            show_list(list)
+        })
+    }
 
     if (task.priority === '1')
         button.innerHTML = `
